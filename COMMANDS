@@ -1,0 +1,8 @@
+#build and run server
+./node_modules/.bin/webpack-dev-server
+
+#only build
+./node_modules/.bin/webpack
+
+# run server
+yarn run start
