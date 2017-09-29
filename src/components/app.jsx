@@ -7,6 +7,7 @@ import Map from './Map';
 import HotelsTable from './HotelsTable';
 
 import { geocode } from '../domain/Geocoder';
+import { searchHotelByLocation } from '../domain/HotelRepository';
 
 class App extends Component {
   constructor(props) {
@@ -17,10 +18,7 @@ class App extends Component {
         lat: 35.6585805,
         lng: 139.7454329,
       },
-      hotels: [
-        { id: 111, name: 'Hotel Okura', url: 'https://google.com' },
-        { id: 222, name: 'Apa Hotel', url: 'https://yahoo.co.jp'},
-      ],
+      hotels: [],
     };
   }
 
@@ -40,7 +38,7 @@ class App extends Component {
         switch (status) {
           case 'OK': {
             this.setState({ address, location });
-            break;
+            return searchHotelByLocation(location);
           }
           case 'ZERO_RESULTS': {
             this.setErrorMessage('Not found...');
@@ -50,10 +48,15 @@ class App extends Component {
             this.setErrorMessage('Error occured...');
           }
         }
+        return [];
       })
-    .catch(() => {
-      this.setErrorMessage('Failed to access the internet...');
-    });
+      .then((hotels) => {
+        this.setState({ hotels });
+      })
+      .catch((e) => {
+        console.log(e);
+        this.setErrorMessage('Failed to access the internet...');
+      });
 
   }
 
