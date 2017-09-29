@@ -1,7 +1,6 @@
+import geolib from 'geolib';
 import Rakuten from '../lib/Rakuten';
 import { RAKUTEN_APP_ID } from './Id';
-
-//import geolib from 'geolib';
 
 // eslint-disable-next-line import/prefer-default-export
 export const searchHotelByLocation = (location) => {
@@ -14,20 +13,22 @@ export const searchHotelByLocation = (location) => {
   return Rakuten.Travel.simpleHotelSearch(params)
     .then(result =>
       result.data.hotels.map((hotel) => {
+        console.log(hotel);
         const basicInfo = hotel.hotel[0].hotelBasicInfo;
-        //const distance = geolib.getDistance(
-        //  { latitude: location.lat, longitude: location.lng },
-        //  { latitude: basicInfo.latitude, longitude: basicInfo.longitude },
-        //);
+        const price = basicInfo.hotelMinCharge;
+        const distance = geolib.getDistance(
+          { latitude: location.lat, longitude: location.lng },
+          { latitude: basicInfo.latitude, longitude: basicInfo.longitude },
+        );
         return {
           id: basicInfo.hotelNo,
           name: basicInfo.hotelName,
           url: basicInfo.hotelInformationUrl,
           thumbUrl: basicInfo.hotelThumbnailUrl,
-          price: basicInfo.hotelMinCharge,
+          price: price ? `${price}Yen` : 'No room',
           reviewAverage: basicInfo.reviewAverage,
           reviewCount: basicInfo.reviewCount,
-          //distance,
+          distance,
         };
       }),
     );
