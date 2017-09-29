@@ -1,5 +1,5 @@
 node_modules/*
 public/bundle.js
 .DS_Store
-src/domain/id.js
+src/domain/Id.js
 *.log
