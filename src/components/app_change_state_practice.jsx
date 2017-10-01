@@ -19,13 +19,12 @@ class App extends Component {
   }
 
   handleNameChange(name) {
-    //console.log(e.target.value);
     this.setState({ name: name });
   }
 
   render() {
     return (
-      
+
       <section>
         <div
           onMouseOver={() => this.handleMouseOver()}

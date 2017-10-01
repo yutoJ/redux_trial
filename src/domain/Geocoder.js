@@ -6,7 +6,6 @@ export const geocode = place =>
 axios
   .get(GEOCODE_ENDPOINT, {params: { address: place } })
   .then((results) => {
-    console.log(results);
     const data = results.data;
     const status = data.status;
     const result = data.results[0];
